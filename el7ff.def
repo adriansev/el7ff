@@ -1,0 +1,14 @@
+Bootstrap: docker-archive
+From: el7ff.tar
+
+%labels
+    Author Adrian.Sevcenco@spacescience.ro
+    Version 0.0.1
+    Description el7 Firefox bowser
+
+
+%help
+el7 Firefox
+
+%runscript
+exec /usr/bin/firefox "${@}"

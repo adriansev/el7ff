@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+NAME="el7ff"
+
+podman build --no-cache --rm --format docker -t ${NAME}:latest -f Dockerfile . || { echo "Fail to build docker image"; exit 1; }
+rm -rf ${NAME}.tar &> /dev/null
+podman save --format docker-archive ${NAME}:latest -o ${NAME}.tar
+

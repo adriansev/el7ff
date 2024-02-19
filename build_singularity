@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+U=$(id -nu)
+G=$(id -ng)
+
+NAME="el7ff"
+SING_DEF="${NAME}.def"
+
+[[ "${1}" == "sandbox" ]] && { shift; DO_SANDBOX="--sandbox "; }
+[[ -n ${DO_SANDBOX} ]] && NAME="${NAME}_sandbox"
+
+NAME_SIF="${NAME}"
+[[ -e "${NAME_SIF}" ]] && rm -f "${NAME_SIF}"
+
+singularity -v build --fakeroot --fix-perms ${DO_SANDBOX} "${NAME_SIF}" "${SING_DEF}"
+
+if [[ -n "${DO_SANDBOX}" ]]; then
+    sudo chown -R ${U}:${G} "${NAME}"
+    sudo chown -R ${U}:${G} "${SINGULARITY_CACHEDIR:-${HOME}/.singularity/cache}"
+fi
+
+rm -rf el7ff.tar
